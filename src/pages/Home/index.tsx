@@ -8,20 +8,40 @@ import { Note } from "../../services/notes/types";
 import { Container } from "./styles";
 
 function Home() {
-  /// !implementar listagem
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const notes = [{ text: "Nota de Exemplo", date: new Date() }] as Note[];
+  const notes = [
+    {
+      id: 1,
+      text: "Minha primeira nota",
+      date: new Date(),
+      urgent: true
+    },
+
+    {
+      id: 3,
+      text: "Minha terceira nota",
+      date: new Date()
+    },
+  ] as Note[];
 
   return (
     <>
-      {/* !!! implementar modal */}
+      {isOpenModal &&
+        <Modal title="Nova nota" handleClose={() => setIsOpenModal(false)}>
+          <FormNote />
+        </Modal>
+      }
       <Container>
-        <CardNote note={notes[0]}></CardNote>
+        {notes.map((note) => (
+          <CardNote key={note.id} note={note} />
+        ))}
 
-        <FabButton handleClick={() => {}}>+</FabButton>
+        <FabButton handleClick={() => setIsOpenModal(true)}>+</FabButton>
       </Container>
     </>
   );
 }
 
 export default Home;
+

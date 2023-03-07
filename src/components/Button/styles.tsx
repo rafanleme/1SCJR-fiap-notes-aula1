@@ -1,13 +1,17 @@
 import styled from "styled-components";
 
-export const ButtonStyled = styled.button`
+interface ButtonProps {
+  styleType: string;
+}
+
+export const ButtonStyled = styled.button<ButtonProps>`
   padding: 5px 10px;
   min-width: 100px;
 
   background-color: transparent;
   cursor: pointer;
   transition: 0.2s;
-  border: 1px solid var(--white);
+  border:  ${(props) => ( props.styleType === "normal" ? "1px solid var(--white)" : "none"  )};
   border-radius: 5px;
   font-weight: bold;
   color: var(--white);
