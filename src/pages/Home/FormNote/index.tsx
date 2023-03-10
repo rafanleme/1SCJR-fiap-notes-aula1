@@ -1,9 +1,14 @@
 import { ChangeEvent, FormEvent, MutableRefObject, useRef, useState } from "react";
 import Button from "../../../components/Button";
 import Checkbox from "../../../components/Checkbox";
+import { Note } from "../../../services/notes/types";
 import { Form } from "./styles";
 
-function FormNote() {
+interface FormNoteProps {
+  handleSubmit: (note: Note) => void
+}
+
+function FormNote({ handleSubmit }: FormNoteProps) {
   const [formValues, setFormValues] = useState({
     text: "",
     urgent: false
@@ -15,18 +20,22 @@ function FormNote() {
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    console.log("formulário enviado", formValues)
+  const handleChangeUrgent = () => {
+    setFormValues({ ...formValues, urgent: !formValues.urgent })
   }
 
-  const handleChangeUrgent = () => {
-    setFormValues({...formValues, urgent: !formValues.urgent})
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    handleSubmit({
+      id: window.crypto.randomUUID(),
+      date: new Date(),
+      ...formValues,
+    });
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={onSubmit}>
       <textarea
         autoFocus
         ref={textAreaRef}

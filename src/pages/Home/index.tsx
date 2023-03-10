@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import CardNote from "../../components/CardNote";
 import FabButton from "../../components/FabButton";
 import FormNote from "./FormNote";
@@ -6,33 +6,34 @@ import Modal from "../../components/Modal";
 import { NotesService } from "../../services/notes/note-service";
 import { Note } from "../../services/notes/types";
 import { Container } from "./styles";
+import { AxiosError } from "axios";
+import { useNotes } from "../../hooks/useNotes";
 
 function Home() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const notes = [
-    {
-      id: 1,
-      text: "Minha primeira nota",
-      date: new Date(),
-      urgent: true
-    },
+  const {
+    isError,
+    isLoading,
+    isOpenModal,
+    notes,
+    onSubmit,
+    setIsOpenModal
+  } = useNotes();
 
-    {
-      id: 3,
-      text: "Minha terceira nota",
-      date: new Date()
-    },
-  ] as Note[];
+  useLayoutEffect(() => {
+    console.log("Antes do componente ser montado");
+  });
 
   return (
     <>
       {isOpenModal &&
         <Modal title="Nova nota" handleClose={() => setIsOpenModal(false)}>
-          <FormNote />
+          <FormNote handleSubmit={onSubmit} />
         </Modal>
       }
       <Container>
+        {isLoading && <h6>Loading...</h6>}
+        {isError && <h6>Houve um erro na busca das notas</h6>}
         {notes.map((note) => (
           <CardNote key={note.id} note={note} />
         ))}

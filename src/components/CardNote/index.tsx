@@ -11,7 +11,7 @@ function CardNote({ note }: NoteProps) {
   return (
     <>
       <Container>
-        <p>{formatDate(note?.date)}</p>
+        <p>{formatDate(new Date(note?.date))}</p>
         <p>{note.text}</p>
         {note.urgent &&
           <span className="material-icons" id="priority">
