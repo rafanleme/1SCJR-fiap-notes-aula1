@@ -33,10 +33,11 @@ export const useNotes = () => {
         }
     }, []);
 
-    const onSubmit = (note: Note) => {
+    const addNote = async (note: Note) => {
         setIsOpenModal(false);
-        setNotes([...notes, note]);
+        const response = await NotesService.addNotes(note);
+        setNotes([...notes, response.data]);
     }
 
-    return { notes, isLoading, isError, isOpenModal, onSubmit, setIsOpenModal }
+    return { notes, isLoading, isError, isOpenModal, addNote, setIsOpenModal }
 }

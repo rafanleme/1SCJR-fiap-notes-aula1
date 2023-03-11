@@ -16,7 +16,7 @@ function Home() {
     isLoading,
     isOpenModal,
     notes,
-    onSubmit,
+    addNote,
     setIsOpenModal
   } = useNotes();
 
@@ -28,7 +28,7 @@ function Home() {
     <>
       {isOpenModal &&
         <Modal title="Nova nota" handleClose={() => setIsOpenModal(false)}>
-          <FormNote handleSubmit={onSubmit} />
+          <FormNote handleSubmit={addNote} />
         </Modal>
       }
       <Container>

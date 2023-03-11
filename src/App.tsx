@@ -1,12 +1,14 @@
+import { AuthProvider } from "./context/authContext";
 import { GlobalStyles } from "./GlobalStyles";
-import Home from "./pages/Home";
+import { AppRoutes } from "./routes";
 
 function App() {
+
   return (
-    <>
+    <AuthProvider>
       <GlobalStyles />
-      <Home />
-    </>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
 
